@@ -14,6 +14,8 @@ public class MainActivity extends AppCompatActivity {
 
     // Initialise game and arrays to loop through later on
     Game game;
+    int score_p1;
+    int score_p2;
     int tiles[] = {R.id.button1, R.id.button2, R.id.button3, R.id.button4, R.id.button5,
             R.id.button6, R.id.button7, R.id.button8, R.id.button9};
     String tilenames[] = {"button1", "button2", "button3", "button4", "button5", "button6",
@@ -36,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        score_p1 = 0;
+        score_p2 = 0;
         if (savedInstanceState != null) {
             for (int i = 0; i < tiles.length; i++) {
                 ((TextView) findViewById(tiles[i])).setText(savedInstanceState.getCharSequence(tilenames[i]));
@@ -91,10 +95,14 @@ public class MainActivity extends AppCompatActivity {
             case CROSS:
                 Button cross_button = findViewById(id);
                 cross_button.setText("X");
+                TextView two = findViewById(R.id.textView3);
+                two.setText("Player 2's turn");
                 break;
             case CIRCLE:
                 Button circle_button = findViewById(id);
                 circle_button.setText("O");
+                TextView one = findViewById(R.id.textView3);
+                one.setText("Player 1's turn");
                 break;
             case INVALID:
                 break;
@@ -108,11 +116,15 @@ public class MainActivity extends AppCompatActivity {
             case PLAYER_ONE:
                 TextView player_one = findViewById(R.id.textView3);
                 player_one.setText("Player 1 wins");
+                score_p1 += 1;
+                ((TextView) findViewById(R.id.score1)).setText( "" + score_p1);
                 disableButtons();
                 break;
             case PLAYER_TWO:
                 TextView player_two = findViewById(R.id.textView3);
                 player_two.setText("Player 2 wins");
+                score_p2 += 1;
+                ((TextView) findViewById(R.id.score2)).setText("" + score_p2);
                 disableButtons();
                 break;
             case DRAW:
@@ -136,11 +148,18 @@ public class MainActivity extends AppCompatActivity {
     public void resetClicked(View view)  {
         game = new Game();
         TextView draw = findViewById(R.id.textView3);
-        draw.setText("");
+        draw.setText("Player 1's turn");
         for (int i = 0; i < tiles.length; i++) {
             Button clear_button = findViewById(tiles[i]);
             clear_button.setText(" ");
             clear_button.setEnabled(true);
         }
+    }
+
+    public void Reset(View view) {
+        score_p1 = 0;
+        score_p2 = 0;
+        ((TextView) findViewById(R.id.score1)).setText("" + score_p1);
+        ((TextView) findViewById(R.id.score2)).setText("" + score_p2);
     }
 }
